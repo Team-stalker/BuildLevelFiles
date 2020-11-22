@@ -1,0 +1,6 @@
+C:\Users\User\source\repos\BuildLevelFiles\BuildLevelFiles\bin\Debug\BuildLevelFiles.exe
+C:\Users\User\source\repos\BuildLevelFiles\BuildLevelFiles\bin\Debug\BuildLevelFiles.pdb
+C:\Users\User\source\repos\BuildLevelFiles\BuildLevelFiles\obj\Debug\BuildLevelFiles.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\BuildLevelFiles\BuildLevelFiles\obj\Debug\BuildLevelFiles.exe
+C:\Users\User\source\repos\BuildLevelFiles\BuildLevelFiles\obj\Debug\BuildLevelFiles.pdb
+C:\Users\User\source\repos\BuildLevelFiles\BuildLevelFiles\obj\Debug\BuildLevelFiles.csprojAssemblyReference.cache
