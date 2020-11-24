@@ -16,13 +16,13 @@ namespace BuildLevelFiles
             Console.WriteLine("Выбрано: " + LevelName);
             Console.WriteLine("Выполнить компиляцию карты? Параметр binaries_x64_release\\Compiler.exe -f" + Environment.NewLine + "Введите: 1 - для компиляции карты" + Environment.NewLine + "Введите: 0 - для пропуска этого действия");
             Level = LevelName;
+            CorrectingGamedataFiles(LevelName);
             if (Convert.ToInt32(Console.ReadLine()) == 1)
             {
                 Console.WriteLine("Сборка карты: " + LevelName);
                 Start("binaries_x64_release\\Compiler.exe", "-f " + LevelName);
                 Console.WriteLine("Компиляция карты завершена");
             }
-            CorrectingGamedataFiles(LevelName);
             string[,] Key_Level = new string[2, 4] { { "-f ", "-g ", "-m", "-no_separator_check -noverbose -s" }, { "1", "1", "0", "0" } };
             for (int i = 0; 4 > i; i++)
             {
@@ -53,8 +53,8 @@ namespace BuildLevelFiles
                     "[levels]" + Environment.NewLine +
                     "level01" + Environment.NewLine + Environment.NewLine +
                     "[level01]" + Environment.NewLine +
-                    "name= " + LevelName + Environment.NewLine +
-                    "caption = " + LevelName + Environment.NewLine +
+                    "name = " + LevelName + Environment.NewLine +
+                    "caption = \"" + LevelName + "\"" + Environment.NewLine +
                     "offset  = 3000.0,1000.0,0.0" + Environment.NewLine +
                     "id = 01";
                 File.WriteAllText("gamedata\\config\\game_levels.ltx", FileInfo, Encoding.GetEncoding(1251));
@@ -93,6 +93,13 @@ namespace BuildLevelFiles
                 File.Copy("gamedata\\game.graph", "BuildLevelFiles\\gamedata\\game.graph", true);
             else
                 Console.WriteLine("NOT FOUND -> gamedata\\game.graph");
+
+            Console.WriteLine("Удаляем ненужные файлы в BuildLevelFiles\\gamedata\\levels\\" + Level +"\\build.*");           
+            foreach (string _Files in Directory.GetFiles("BuildLevelFiles\\gamedata\\levels\\" + Level , "build.*", SearchOption.AllDirectories))
+            {
+                File.Delete(_Files);
+                Console.WriteLine("deleted -> " + _Files);
+            }
         }
 
         static void Start(string Exe, string Args)
