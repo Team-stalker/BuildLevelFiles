@@ -17,7 +17,7 @@ namespace BuildLevelFiles
             Console.Clear();
             Console.WriteLine("Выбрано: " + Level);
             CorrectingGamedataFiles(LevelName);
-            Console.WriteLine("Выберите задачи:" + Environment.NewLine + "Введите: 0 - чтобы выполнить все задачи" + Environment.NewLine + "Введите: 1 - чтобы собрать только архив для: " + Level+Environment.NewLine + "Введите: 2 - чтобы выполнить все задачи с упаковкой карты в *.xdb*" +Environment.NewLine + "Введите: 3 - чтобы собрать архив только для: " + Level + ", с упаковкой карты в *.xdb*");
+            Console.WriteLine("Выберите задачи:" + Environment.NewLine + "Введите: 0 - чтобы выполнить все задачи без упаковки архива в xdb" + Environment.NewLine + "Введите: 1 - чтобы собрать только архив для: " + Level+Environment.NewLine + "Введите: 2 - чтобы выполнить все задачи с упаковкой карты в *.xdb*" +Environment.NewLine + "Введите: 3 - чтобы собрать архив только для: " + Level + ", с упаковкой карты в *.xdb*");
             int type = Convert.ToInt32(Console.ReadLine());
             if (type == 1 || type == 3)
             {           
@@ -28,22 +28,22 @@ namespace BuildLevelFiles
                         break;
                     case 3:
                         CopyGamedataFiles(LevelName);
-                        Console.WriteLine("Упаковка карты в xdb...");
+                        Console.WriteLine("[" + DateTime.Now + "] Упаковка карты в xdb...");
                         Start(@"SdkSoft\converter_xdb\converter.exe", "-pack "+Environment.CurrentDirectory + "\\BuildLevelFiles\\"+ Level + "\\gamedata" + " -out BuildLevelFiles\\" + Level + "\\" + Level + ".xdb0");
                         break;
                 }
                 if (Directory.Exists("BuildLevelFiles\\" + Level + "\\"))
                     Process.Start("BuildLevelFiles\\" + Level + "\\");
-                Console.WriteLine("Готово");
+                Console.WriteLine("[" + DateTime.Now + "] Готово");
                 Console.ReadKey();
                 return;
             }
             Console.WriteLine("Выполнить компиляцию карты? Параметр Compiler.exe -f" + Environment.NewLine + "Введите: 1 - для компиляции карты" + Environment.NewLine + "Введите: 0 - для пропуска этого действия");
             if (Convert.ToInt32(Console.ReadLine()) == 1)
             {
-                Console.WriteLine("Сборка карты: " + LevelName);
+                Console.WriteLine("[" + DateTime.Now + "] Сборка карты: " + LevelName);
                 Start("SdkSoft\\Compiler.exe", "-f " + LevelName);
-                Console.WriteLine("Компиляция карты завершена");
+                Console.WriteLine("[" + DateTime.Now + "] Компиляция карты завершена");
             }
             string[,] Key_Level = new string[2, 4] { { "-f ", "-g ", "-m", "-no_separator_check -noverbose -s" }, { "1", "1", "0", "0" } };
             for (int i = 0; 4 > i; i++)
@@ -56,6 +56,8 @@ namespace BuildLevelFiles
             CopyGamedataFiles(Level);
             if (Directory.Exists("BuildLevelFiles\\" + Level + "\\"))
                 Process.Start("BuildLevelFiles\\" + Level + "\\");
+            if (type == 2)
+                Start(@"SdkSoft\converter_xdb\converter.exe", "-pack " + Environment.CurrentDirectory + "\\BuildLevelFiles\\" + Level + "\\gamedata" + " -out BuildLevelFiles\\" + Level + "\\" + Level + ".xdb0");
             Console.WriteLine("Готово");
             Console.ReadKey();
         }
