@@ -20,7 +20,7 @@ namespace BuildLevelFiles
             Console.WriteLine("Выберите задачи:" + Environment.NewLine + "Введите: 0 - чтобы выполнить все задачи" + Environment.NewLine + "Введите: 1 - чтобы собрать только архив для: " + Level+Environment.NewLine + "Введите: 2 - чтобы выполнить все задачи с упаковкой карты в *.xdb*" +Environment.NewLine + "Введите: 3 - чтобы собрать архив только для: " + Level + ", с упаковкой карты в *.xdb*");
             int type = Convert.ToInt32(Console.ReadLine());
             if (type == 1 || type == 3)
-            {
+            {           
                 switch (type)
                 {
                     case 1:
@@ -38,11 +38,11 @@ namespace BuildLevelFiles
                 Console.ReadKey();
                 return;
             }
-            Console.WriteLine("Выполнить компиляцию карты? Параметр binaries_x64_release\\Compiler.exe -f" + Environment.NewLine + "Введите: 1 - для компиляции карты" + Environment.NewLine + "Введите: 0 - для пропуска этого действия");
+            Console.WriteLine("Выполнить компиляцию карты? Параметр Compiler.exe -f" + Environment.NewLine + "Введите: 1 - для компиляции карты" + Environment.NewLine + "Введите: 0 - для пропуска этого действия");
             if (Convert.ToInt32(Console.ReadLine()) == 1)
             {
                 Console.WriteLine("Сборка карты: " + LevelName);
-                Start("SdkSoft\\converter_x64\\Compiler.exe", "-f " + LevelName);
+                Start("SdkSoft\\Compiler.exe", "-f " + LevelName);
                 Console.WriteLine("Компиляция карты завершена");
             }
             string[,] Key_Level = new string[2, 4] { { "-f ", "-g ", "-m", "-no_separator_check -noverbose -s" }, { "1", "1", "0", "0" } };
@@ -51,9 +51,11 @@ namespace BuildLevelFiles
                 if (Key_Level[1, i] == "0")
                     LevelName = null;
                 Console.WriteLine("start arg: " + Key_Level[0, i] + " " + LevelName);
-                Start(@"SdkSoft\converter_ai\xrai.exe", Key_Level[0, i] + LevelName);
+                Start(@"SdkSoft\\compiler_ai\\xrai.exe", Key_Level[0, i] + LevelName);
             }
             CopyGamedataFiles(Level);
+            if (Directory.Exists("BuildLevelFiles\\" + Level + "\\"))
+                Process.Start("BuildLevelFiles\\" + Level + "\\");
             Console.WriteLine("Готово");
             Console.ReadKey();
         }
